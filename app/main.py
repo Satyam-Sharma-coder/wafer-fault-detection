@@ -1,5 +1,5 @@
 from flask import Flask
-from controllers.fault_controller import fault_bp
+from app.controllers.fault_controller import fault_bp
 
 app = Flask(__name__)
 app.register_blueprint(fault_bp)

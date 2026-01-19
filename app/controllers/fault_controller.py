@@ -1,3 +1,5 @@
+import os
+import numpy as np
 from flask import Blueprint, render_template
 from app.repositories.dataset_repository import DatasetRepository
 from app.services.preprocessing_service import PreprocessingService
@@ -5,15 +7,16 @@ from app.models.autoencoder_model import AutoencoderModel
 from app.services.autoencoder_service import AutoencoderService
 from app.services.plotting_service import PlottingService
 from app.services.severity_service import SeverityService
-from app.models.classifiers import RandomForestModel
 from tensorflow.keras.models import load_model
-from sklearn.metrics import precision_score, recall_score, f1_score
-import joblib
-import os
-import numpy as np
 from tensorflow.keras.optimizers import Adam
+from sklearn.metrics import precision_score, recall_score, f1_score
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_PATH = os.path.join(BASE_DIR, "..", "data", "uci-secom.csv")
+MODEL_DIR = os.path.join(BASE_DIR, "..", "saved_models")
 
 fault_bp = Blueprint("fault", __name__)
+
 
 @fault_bp.route("/", methods=["GET"])
 def index():
@@ -21,7 +24,7 @@ def index():
 
 @fault_bp.route("/run", methods=["POST"])
 def run_pipeline():
-    repo = DatasetRepository("data/uci-secom.csv")
+    repo = DatasetRepository(DATA_PATH)
     df = repo.load()
 
     pre = PreprocessingService()
@@ -29,7 +32,7 @@ def run_pipeline():
 
     healthy = X[y == -1]
 
-    ae_path = "saved_models/autoencoder.h5"
+    ae_path = os.path.join(MODEL_DIR, "autoencoder.h5")
 
     if os.path.exists(ae_path):
         ae_model = load_model(ae_path, compile=False)
