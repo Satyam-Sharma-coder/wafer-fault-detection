@@ -1,0 +1,9 @@
+body { font-family: Arial, sans-serif; background: #f7f7f9; margin: 0; }
+.container { max-width: 800px; margin: 2rem auto; background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+h1 { margin-top: 0; }
+.button { display: inline-block; padding: 0.5rem 1rem; background: #0066cc; color: #fff; border-radius: 4px; text-decoration: none; }
+.summary { display: flex; gap: 1rem; margin: 1rem 0; }
+.card { flex: 1; padding: 1rem; border-radius: 6px; color: #fff; text-align: center; }
+.low { background: #2e8b57; }
+.medium { background: #f0ad4e; }
+.high { background: #d9534f; }
